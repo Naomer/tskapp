@@ -4,6 +4,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../../config/env.dart';
 
 class MapScreen extends StatefulWidget {
   final LatLng? initialLocation;
@@ -288,7 +290,7 @@ class _MapScreenState extends State<MapScreen> {
         Uri.parse(
           'https://maps.googleapis.com/maps/api/place/autocomplete/json'
           '?input=$query'
-          '&key=AIzaSyBPzc7TGvM4eT5AalOR4gG2EdMY3DF7JoY'
+          '&key=${Env.googleMapsAndroidApiKey}'
           '&components=country:in',
         ),
       );
@@ -319,7 +321,7 @@ class _MapScreenState extends State<MapScreen> {
         Uri.parse(
           'https://maps.googleapis.com/maps/api/place/details/json'
           '?place_id=$placeId'
-          '&key=AIzaSyBPzc7TGvM4eT5AalOR4gG2EdMY3DF7JoY'
+          '&key=${Env.googleMapsAndroidApiKey}'
           '&fields=geometry',
         ),
       );

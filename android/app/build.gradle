@@ -30,7 +30,7 @@ if (flutterRoot == null) {
 
 def mapsApiKey = localProperties.getProperty('MAPS_API_KEY')
 if (mapsApiKey == null) {
-    throw new GradleException("Google Maps API key not found. Define MAPS_API_KEY in the local.properties file.")
+    throw new GradleException("Maps API key not found. Define MAPS_API_KEY in the local.properties file.")
 }
 
 // Load .env file
@@ -84,7 +84,9 @@ android {
         // Set the API key from .env file
         resValue "string", "GOOGLE_MAPS_ANDROID_API_KEY", envProperties.getProperty('GOOGLE_MAPS_ANDROID_API_KEY', '')
         
-        manifestPlaceholders = [MAPS_API_KEY: mapsApiKey]
+        manifestPlaceholders = [
+            MAPS_API_KEY: mapsApiKey
+        ]
     }
 
     buildTypes {
