@@ -1,0 +1,139 @@
+{
+  "navigation": {
+    "home": "Home",
+    "city": "City",
+    "jobs": "Jobs",
+    "orders": "Orders",
+    "profile": "Profile"
+  },
+  "home": "Home",
+  "welcome": "Welcome!",
+  "language": "Language",
+  "help_support": "Help & Support",
+  "logout": "Logout",
+  "login": "Login",
+  "city": "City",
+  "jobs": "Jobs",
+  "orders": "Orders",
+  "app": {
+    "name": "Task App",
+    "tagline": "Get Things Done",
+    "loading": "Loading..."
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "skip": "Skip"
+  },
+  "auth": {
+    "login": {
+      "sign_in_now": "Sign In Now",
+      "please_sign_in": "Please sign in to continue",
+      "email": "Email",
+      "password": "Password",
+      "forgot_password": "Forgot Password?",
+      "sign_in": "Sign In",
+      "no_account": "Don't have an account?",
+      "sign_up": "Sign Up",
+      "or_connect": "Or connect with",
+      "errors": {
+        "email_required": "Email is required",
+        "invalid_email": "Please enter a valid email",
+        "password_required": "Password is required",
+        "missing_fields": "Please fill in all fields",
+        "generic": "An error occurred during login"
+      },
+      "logging_in": "Logging in..."
+    },
+    "register": {
+      "create_account": "Create Account",
+      "please_register": "Please fill in your details to register",
+      "full_name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "sign_up": "Sign Up",
+      "has_account": "Already have an account?",
+      "sign_in": "Sign In",
+      "or_connect": "Or connect with",
+      "errors": {
+        "name_required": "Name is required",
+        "email_required": "Email is required",
+        "password_short": "Password must be at least 6 characters"
+      }
+    },
+    "forgot_password": "Forgot Password?",
+    "no_account": "Don't have an account?",
+    "has_account": "Already have an account?"
+  },
+  "onboarding": {
+    "get_started": "Get Started",
+    "next": "Next",
+    "skip": "Skip",
+    "pages": {
+      "services": {
+        "title": "Find Local Services",
+        "description": "Discover trusted service providers in your area"
+      },
+      "booking": {
+        "title": "Book Instantly",
+        "description": "Book services with just a few taps"
+      },
+      "tracking": {
+        "title": "Track Progress",
+        "description": "Monitor your service requests in real-time"
+      }
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "edit_profile": "Edit Profile",
+    "notification": "Notifications",
+    "payment_method": "Payment Method",
+    "help_support": "Help & Support",
+    "language": "Language",
+    "logout": "Logout",
+    "logout_confirm": "Are you sure you want to logout?",
+    "earnings": "Earnings",
+    "active_orders": "Active Orders",
+    "completed": "Completed",
+    "profession": "Profession",
+    "verification": "Verification",
+    "upgrade": "Upgrade"
+  },
+  "language": {
+    "title": "Choose Language",
+    "select_preferred": "Select your preferred app language",
+    "english": "English",
+    "arabic": "العربية",
+    "change_success": "Language changed successfully",
+    "change_error": "Failed to change language"
+  },
+  "settings": {
+    "title": "Settings",
+    "notifications": "Notifications",
+    "language": "Language",
+    "theme": "Theme",
+    "about": "About",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions"
+  },
+  "permissions": {
+    "location": {
+      "title": "Enable Location",
+      "message": "Please enable location services to use the app.",
+      "open_settings": "Open Settings"
+    }
+  }
+} 

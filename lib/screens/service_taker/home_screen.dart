@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../widgets/custom_navigation_bar.dart';
 import '../../widgets/bottom_nav_bar/bottom_nav_config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../services/storage_service.dart';
+import '../../widgets/app_drawer.dart';
 
 class ServiceTakerHomeScreen extends StatefulWidget {
   const ServiceTakerHomeScreen({super.key});
@@ -11,18 +15,91 @@ class ServiceTakerHomeScreen extends StatefulWidget {
 
 class _ServiceTakerHomeScreenState extends State<ServiceTakerHomeScreen> {
   int _selectedIndex = 0;
+  late StorageService _storageService;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeServices();
+  }
+
+  Future<void> _initializeServices() async {
+    final prefs = await SharedPreferences.getInstance();
+    _storageService = StorageService(prefs);
+  }
+
+  void _handleProtectedAction(BuildContext context, VoidCallback action) {
+    if (_storageService.isGuest()) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Login Required'),
+          content: const Text('Please login to access this feature.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+                Navigator.pushReplacementNamed(context, '/login');
+              },
+              child: const Text('Login'),
+            ),
+          ],
+        ),
+      );
+    } else {
+      action();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Add a context.locale listener to ensure the screen rebuilds when language changes
+    context.locale; // This line ensures the widget rebuilds when locale changes
+
     return Scaffold(
-      body: navScreens[_selectedIndex],
+      drawer: const AppDrawer(),
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: navScreens.map((screen) {
+          if (_selectedIndex > 0 && _storageService.isGuest()) {
+            return GestureDetector(
+              onTap: () => _handleProtectedAction(context, () {}),
+              child: Container(
+                color: Colors.white,
+                child: const Center(
+                  child: Text(
+                    'Please login to access this feature',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+          return screen;
+        }).toList(),
+      ),
       extendBody: true,
       bottomNavigationBar: CustomNavigationBar(
         selectedIndex: _selectedIndex,
         onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
+          if (index > 0 && _storageService.isGuest()) {
+            _handleProtectedAction(context, () {
+              setState(() {
+                _selectedIndex = index;
+              });
+            });
+          } else {
+            setState(() {
+              _selectedIndex = index;
+            });
+          }
         },
       ),
     );

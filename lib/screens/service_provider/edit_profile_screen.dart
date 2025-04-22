@@ -323,7 +323,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       onTap: () {
                         showCountryPicker(
                           context: context,
-                          showPhoneCode: true,
+                          showPhoneCode: false,
                           onSelect: (Country country) {
                             setState(() {
                               _selectedCountry = country.name;

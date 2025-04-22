@@ -139,6 +139,14 @@ class _ServiceProviderProfileViewState
             ),
             const Divider(),
             ListTile(
+              leading: const Icon(Icons.language),
+              title: const Text('Language'),
+              onTap: () {
+                Navigator.pushNamed(context, '/settings/language');
+              },
+            ),
+            const Divider(),
+            ListTile(
               leading: const Icon(Icons.logout, color: Colors.red),
               title: const Text(
                 'Logout',

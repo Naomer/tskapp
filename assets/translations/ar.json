@@ -1,0 +1,139 @@
+{
+  "navigation": {
+    "home": "الرئيسية",
+    "city": "المدينة",
+    "jobs": "الوظائف",
+    "orders": "الطلبات",
+    "profile": "الملف"
+  },
+  "home": "الرئيسية",
+  "welcome": "مرحباً!",
+  "language": "اللغة",
+  "help_support": "المساعدة والدعم",
+  "logout": "تسجيل خروج",
+  "login": "تسجيل دخول",
+  "city": "المدينة",
+  "jobs": "الوظائف",
+  "orders": "الطلبات",
+  "app": {
+    "name": "تطبيق المهام",
+    "tagline": "أنجز مهامك",
+    "loading": "جاري التحميل..."
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجاح",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "back": "رجوع",
+    "next": "التالي",
+    "done": "تم",
+    "confirm": "تأكيد",
+    "yes": "نعم",
+    "no": "لا",
+    "skip": "تخطي"
+  },
+  "auth": {
+    "login": {
+      "sign_in_now": "تسجيل الدخول الآن",
+      "please_sign_in": "الرجاء تسجيل الدخول للمتابعة",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "forgot_password": "نسيت كلمة المرور؟",
+      "sign_in": "تسجيل الدخول",
+      "no_account": "ليس لديك حساب؟",
+      "sign_up": "إنشاء حساب",
+      "or_connect": "أو الربط عبر",
+      "errors": {
+        "email_required": "البريد الإلكتروني مطلوب",
+        "invalid_email": "الرجاء إدخال بريد إلكتروني صحيح",
+        "password_required": "كلمة المرور مطلوبة",
+        "missing_fields": "الرجاء ملء جميع الحقول",
+        "generic": "حدث خطأ أثناء تسجيل الدخول"
+      },
+      "logging_in": "جاري تسجيل الدخول..."
+    },
+    "register": {
+      "create_account": "إنشاء حساب",
+      "please_register": "يرجى ملء التفاصيل وإنشاء حساب",
+      "full_name": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "sign_up": "إنشاء حساب",
+      "has_account": "لديك حساب بالفعل؟",
+      "sign_in": "تسجيل الدخول",
+      "or_connect": "أو الربط عبر",
+      "errors": {
+        "name_required": "الاسم مطلوب",
+        "email_required": "البريد الإلكتروني مطلوب",
+        "password_short": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
+      }
+    },
+    "forgot_password": "نسيت كلمة المرور؟",
+    "no_account": "ليس لديك حساب؟",
+    "has_account": "لديك حساب بالفعل؟"
+  },
+  "onboarding": {
+    "get_started": "ابدأ الآن",
+    "next": "التالي",
+    "skip": "تخطي",
+    "pages": {
+      "services": {
+        "title": "ابحث عن الخدمات المحلية",
+        "description": "اكتشف مقدمي الخدمات الموثوق بهم في منطقتك"
+      },
+      "booking": {
+        "title": "احجز فوراً",
+        "description": "احجز الخدمات بنقرات قليلة"
+      },
+      "tracking": {
+        "title": "تتبع التقدم",
+        "description": "راقب طلبات الخدمة الخاصة بك في الوقت الفعلي"
+      }
+    }
+  },
+  "profile": {
+    "title": "ملفي الشخصي",
+    "edit_profile": "تعديل الملف الشخصي",
+    "notification": "الإشعارات",
+    "payment_method": "طريقة الدفع",
+    "help_support": "المساعدة والدعم",
+    "language": "اللغة",
+    "logout": "تسجيل خروج",
+    "logout_confirm": "هل أنت متأكد من تسجيل الخروج؟",
+    "earnings": "الأرباح",
+    "active_orders": "الطلبات النشطة",
+    "completed": "المكتملة",
+    "profession": "المهنة",
+    "verification": "التحقق",
+    "upgrade": "ترقية"
+  },
+  "language": {
+    "title": "اختر لغتك",
+    "select_preferred": "اختر لغتك المفضلة للتطبيق",
+    "english": "English",
+    "arabic": "العربية",
+    "change_success": "تم تغيير اللغة بنجاح",
+    "change_error": "فشل في تغيير اللغة"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "notifications": "الإشعارات",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "about": "حول التطبيق",
+    "privacy": "سياسة الخصوصية",
+    "terms": "الشروط والأحكام"
+  },
+  "permissions": {
+    "location": {
+      "title": "تفعيل الموقع",
+      "message": "يرجى تفعيل خدمات الموقع لاستخدام التطبيق.",
+      "open_settings": "فتح الإعدادات"
+    }
+  }
+} 

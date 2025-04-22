@@ -30,9 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   http: ^1.2.0
   shared_preferences: ^2.4.0
-  intl: ^0.18.1
+  intl: ^0.19.0
   country_picker: ^2.0.24
   intl_phone_field: ^3.2.0
   flutter_switch: ^0.3.2
@@ -49,6 +51,8 @@ dependencies:
   url_launcher: ^6.3.1
   shimmer: ^3.0.0
   font_awesome_flutter: ^10.7.0
+  easy_localization: ^3.0.5
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -77,6 +81,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/translations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

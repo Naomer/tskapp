@@ -11,6 +11,7 @@ class StorageService {
   static const String _userKey = 'user_data';
   static const String _roleKey = 'user_role';
   static const String _hasSeenGetStartedKey = 'has_seen_get_started';
+  static const String _isGuestKey = 'is_guest';
 
   final SharedPreferences _prefs;
 
@@ -30,6 +31,7 @@ class StorageService {
   }
 
   Future<String?> getAccessToken() async {
+    if (isGuest()) return null;
     try {
       final token = _prefs.getString(_accessTokenKey);
       print(
@@ -276,6 +278,7 @@ class StorageService {
   }
 
   bool validateStoredUser() {
+    if (isGuest()) return true;
     try {
       final token = _prefs.getString(_accessTokenKey);
       final user = getUser();
@@ -288,14 +291,31 @@ class StorageService {
       print('Role: $role');
       print('User role from object: ${user?.role}');
 
-      if (token == null || user == null || role == null) {
-        print('Missing required data');
+      // Check if we have all required data
+      if (token == null) {
+        print('Token is missing');
         return false;
       }
 
-      if (role != user.role ||
-          (role != 'serviceProvider' && role != 'serviceTaker')) {
-        print('Role mismatch or invalid format');
+      if (user == null) {
+        print('User data is missing');
+        return false;
+      }
+
+      if (role == null) {
+        print('Role is missing');
+        return false;
+      }
+
+      // Validate role format
+      if (role != 'serviceProvider' && role != 'serviceTaker') {
+        print('Invalid role format');
+        return false;
+      }
+
+      // Validate role consistency
+      if (role != user.role) {
+        print('Role mismatch between stored role and user object');
         return false;
       }
 
@@ -308,11 +328,31 @@ class StorageService {
   }
 
   Future<void> clearAll() async {
+    // Save values we want to keep
     final hasSeenGetStarted = _prefs.getBool(_hasSeenGetStartedKey);
+    final isGuest = _prefs.getBool(_isGuestKey);
+    final selectedLanguage = _prefs.getString('selected_language');
+    final languageSetupCompleted = _prefs.getBool('language_setup_completed');
+    final hasSeenLanguageScreen = _prefs.getBool('has_seen_language_screen');
+
     print('Clearing all data');
     await _prefs.clear();
+
+    // Restore preserved values
     if (hasSeenGetStarted == true) {
       await _prefs.setBool(_hasSeenGetStartedKey, true);
+    }
+    if (isGuest == true) {
+      await _prefs.setBool(_isGuestKey, true);
+    }
+    if (selectedLanguage != null) {
+      await _prefs.setString('selected_language', selectedLanguage);
+    }
+    if (languageSetupCompleted == true) {
+      await _prefs.setBool('language_setup_completed', true);
+    }
+    if (hasSeenLanguageScreen == true) {
+      await _prefs.setBool('has_seen_language_screen', true);
     }
   }
 
@@ -338,5 +378,54 @@ class StorageService {
     }
 
     return headers;
+  }
+
+  Future<void> setGuestMode(bool isGuest) async {
+    await _prefs.setBool(_isGuestKey, isGuest);
+  }
+
+  bool isGuest() {
+    return _prefs.getBool(_isGuestKey) ?? false;
+  }
+
+  Future<void> clearUserData() async {
+    print('Clearing user data');
+    try {
+      await Future.wait([
+        _prefs.remove(_accessTokenKey),
+        _prefs.remove(_refreshTokenKey),
+        _prefs.remove(_tokenExpiryKey),
+        _prefs.remove(_userKey),
+        _prefs.remove(_roleKey),
+      ]);
+
+      // Verify data is cleared
+      final accessToken = _prefs.getString(_accessTokenKey);
+      final refreshToken = _prefs.getString(_refreshTokenKey);
+      final tokenExpiry = _prefs.getString(_tokenExpiryKey);
+      final userData = _prefs.getString(_userKey);
+      final role = _prefs.getString(_roleKey);
+
+      if (accessToken != null ||
+          refreshToken != null ||
+          tokenExpiry != null ||
+          userData != null ||
+          role != null) {
+        print('Warning: Some user data still exists after clearing');
+        // Force clear if normal clear failed
+        await _prefs.remove(_accessTokenKey);
+        await _prefs.remove(_refreshTokenKey);
+        await _prefs.remove(_tokenExpiryKey);
+        await _prefs.remove(_userKey);
+        await _prefs.remove(_roleKey);
+      } else {
+        print('User data cleared successfully');
+      }
+    } catch (e) {
+      print('Error clearing user data: $e');
+      // Attempt force clear
+      await _prefs.clear();
+      throw Exception('Failed to clear user data: $e');
+    }
   }
 }

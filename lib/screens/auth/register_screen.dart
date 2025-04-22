@@ -3,6 +3,7 @@ import 'package:iconly/iconly.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'user_type_screen.dart';
 import 'dart:io' show Platform;
+import 'package:easy_localization/easy_localization.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,6 +18,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool isPasswordVisible = false;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -26,18 +28,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _handleRegister() {
+  void _handleRegister() async {
     if (_formKey.currentState!.validate()) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserTypeScreen(
-            name: _nameController.text,
-            email: _emailController.text,
-            password: _passwordController.text,
+      setState(() {
+        _isLoading = true;
+      });
+
+      try {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserTypeScreen(
+              name: _nameController.text,
+              email: _emailController.text,
+              password: _passwordController.text,
+            ),
           ),
-        ),
-      );
+        );
+      } catch (e) {
+        // Handle any errors here
+        print('Error during registration: $e');
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
+    }
+  }
+
+  Future<void> _changeLanguage() async {
+    final currentLocale = context.locale;
+    if (currentLocale.languageCode == 'en') {
+      await context.setLocale(const Locale('ar'));
+    } else {
+      await context.setLocale(const Locale('en'));
     }
   }
 
@@ -65,6 +91,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
             onPressed: () => Navigator.pop(context),
           ),
         ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: TextButton(
+              onPressed: _changeLanguage,
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Text(
+                context.locale.languageCode == 'en' ? 'عربي' : 'EN',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -79,10 +132,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20),
-                      const Center(
+                      Center(
                         child: Text(
-                          'Sign up now',
-                          style: TextStyle(
+                          'auth.register.create_account'.tr(),
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
@@ -91,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(height: 8),
                       Center(
                         child: Text(
-                          'Please fill the details and create account',
+                          'auth.register.please_register'.tr(),
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey[600],
@@ -105,7 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.name,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
-                          labelText: 'Full Name',
+                          labelText: 'auth.register.full_name'.tr(),
                           filled: true,
                           fillColor: Colors.grey[100],
                           border: OutlineInputBorder(
@@ -119,7 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your name';
+                            return 'auth.register.errors.name_required'.tr();
                           }
                           return null;
                         },
@@ -131,7 +184,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.emailAddress,
                         textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
-                          labelText: 'Email',
+                          labelText: 'auth.register.email'.tr(),
                           filled: true,
                           fillColor: Colors.grey[100],
                           border: OutlineInputBorder(
@@ -145,7 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter your email';
+                            return 'auth.register.errors.email_required'.tr();
                           }
                           return null;
                         },
@@ -159,7 +212,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         enableSuggestions: false,
                         autocorrect: false,
                         decoration: InputDecoration(
-                          labelText: 'Password',
+                          labelText: 'auth.register.password'.tr(),
                           filled: true,
                           fillColor: Colors.grey[100],
                           border: OutlineInputBorder(
@@ -187,7 +240,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         obscureText: !isPasswordVisible,
                         validator: (value) {
                           if (value == null || value.length < 6) {
-                            return 'Password must be at least 6 characters';
+                            return 'auth.register.errors.password_short'.tr();
                           }
                           return null;
                         },
@@ -204,14 +257,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          onPressed: _handleRegister,
-                          child: const Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          onPressed: _isLoading ? null : _handleRegister,
+                          child: _isLoading
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : Text(
+                                  'auth.register.sign_up'.tr(),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                         ),
                       ),
                       const SizedBox(height: 32),
@@ -226,11 +288,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 color: Colors.grey[600],
                                 fontSize: 14,
                               ),
-                              children: const [
-                                TextSpan(text: 'Already have an account? '),
+                              children: [
                                 TextSpan(
-                                  text: 'Sign in',
-                                  style: TextStyle(
+                                    text:
+                                        'auth.register.has_account'.tr() + ' '),
+                                TextSpan(
+                                  text: 'auth.register.sign_in'.tr(),
+                                  style: const TextStyle(
                                     color: Color.fromARGB(255, 135, 192, 238),
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -247,7 +311,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
-                              'Or connect',
+                              'auth.register.or_connect'.tr(),
                               style: TextStyle(
                                 color: Colors.grey[600],
                                 fontSize: 14,

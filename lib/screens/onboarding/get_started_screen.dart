@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../services/storage_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GetStartedScreen extends StatefulWidget {
   const GetStartedScreen({super.key});
@@ -16,20 +17,20 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
   int currentPage = 0;
 
   final List<OnboardingPage> pages = [
-    const OnboardingPage(
+    OnboardingPage(
       image: 'assets/images/onboarding1.png',
-      title: 'Find Local Services',
-      description: 'Discover trusted service providers in your area',
+      title: 'onboarding.pages.services.title'.tr(),
+      description: 'onboarding.pages.services.description'.tr(),
     ),
-    const OnboardingPage(
+    OnboardingPage(
       image: 'assets/images/onboarding2.png',
-      title: 'Book Instantly',
-      description: 'Schedule services with just a few taps',
+      title: 'onboarding.pages.booking.title'.tr(),
+      description: 'onboarding.pages.booking.description'.tr(),
     ),
-    const OnboardingPage(
+    OnboardingPage(
       image: 'assets/images/onboarding3.png',
-      title: 'Track Progress',
-      description: 'Monitor your service requests in real-time',
+      title: 'onboarding.pages.tracking.title'.tr(),
+      description: 'onboarding.pages.tracking.description'.tr(),
     ),
   ];
 
@@ -51,101 +52,101 @@ class _GetStartedScreenState extends State<GetStartedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            // Main content
-            Column(
-              children: [
-                Expanded(
-                  child: PageView(
-                    controller: _pageController,
-                    onPageChanged: (index) {
-                      setState(() {
-                        isLastPage = index == pages.length - 1;
-                        currentPage = index;
-                      });
-                    },
-                    children: pages,
+    return WillPopScope(
+      onWillPop: () async => false, // Prevent going back
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Stack(
+            children: [
+              // Main content
+              Column(
+                children: [
+                  Expanded(
+                    child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        setState(() {
+                          isLastPage = index == pages.length - 1;
+                          currentPage = index;
+                        });
+                      },
+                      children: pages,
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Page Indicator
-                      SmoothPageIndicator(
-                        controller: _pageController,
-                        count: pages.length,
-                        effect: ExpandingDotsEffect(
-                          spacing: 5,
-                          dotColor: Colors.grey[300]!,
-                          activeDotColor:
-                              const Color.fromARGB(255, 135, 192, 238),
-                          dotHeight: 7,
-                          dotWidth: 8, // Width for inactive dots (circular)
-                          expansionFactor:
-                              4.17, // This makes active dot exactly 25px (6 * 4.17 ≈ 25)
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      // Button
-                      SizedBox(
-                        width: double.infinity,
-                        height: 57,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 135, 192, 238),
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                          ),
-                          onPressed: () {
-                            if (isLastPage) {
-                              _markAsSeen(context);
-                            } else {
-                              _pageController.nextPage(
-                                duration: const Duration(milliseconds: 500),
-                                curve: Curves.easeInOut,
-                              );
-                            }
-                          },
-                          child: Text(
-                            currentPage == 0 ? 'Get Started' : 'Next',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SmoothPageIndicator(
+                          controller: _pageController,
+                          count: pages.length,
+                          effect: ExpandingDotsEffect(
+                            activeDotColor: Colors.blue[300]!,
+                            dotColor: Colors.blue[100]!,
+                            dotHeight: 8,
+                            dotWidth: 8,
+                            spacing: 4,
                           ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 32),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 57,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor:
+                                  const Color.fromARGB(255, 135, 192, 238),
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () {
+                              if (isLastPage) {
+                                _markAsSeen(context);
+                              } else {
+                                _pageController.nextPage(
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.easeInOut,
+                                );
+                              }
+                            },
+                            child: Text(
+                              isLastPage
+                                  ? 'onboarding.get_started'.tr()
+                                  : 'onboarding.next'.tr(),
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            // Skip button (on top)
-            Positioned(
-              top: 16,
-              right: 16,
-              child: TextButton(
-                onPressed: () => _markAsSeen(context),
-                child: const Text(
-                  'Skip',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
+                ],
+              ),
+              // Skip button (on top)
+              Positioned(
+                top: 16,
+                right: 16,
+                child: TextButton(
+                  onPressed: () => _markAsSeen(context),
+                  child: Text(
+                    'onboarding.skip'.tr(),
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

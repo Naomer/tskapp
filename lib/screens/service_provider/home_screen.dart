@@ -4,6 +4,7 @@ import '../prov_tabs/job_tab_prov.dart';
 import '../prov_tabs/offers_tab_prov.dart';
 import '../prov_tabs/profile_tab_prov.dart';
 import '../../widgets/provider_navigation_bar.dart';
+import '../../widgets/app_drawer.dart';
 
 class ServiceProviderHomeScreen extends StatefulWidget {
   const ServiceProviderHomeScreen({super.key});
@@ -26,6 +27,7 @@ class _ServiceProviderHomeScreenState extends State<ServiceProviderHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(isProvider: true),
       body: _tabs[_selectedIndex],
       bottomNavigationBar: ProviderNavigationBar(
         selectedIndex: _selectedIndex,

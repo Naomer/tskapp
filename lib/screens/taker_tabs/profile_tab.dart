@@ -6,6 +6,7 @@ import '../../screens/service_taker/edit_profile_screen.dart' as taker;
 import '../../screens/service_taker/payment_method_screen.dart';
 import '../../screens/service_taker/notification_settings_screen.dart';
 import '../../screens/service_taker/help_support_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -64,8 +65,8 @@ class _ProfileTabState extends State<ProfileTab> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         scrolledUnderElevation: 0,
-        title: const Text('My Profile',
-            style: TextStyle(
+        title: Text('profile.title'.tr(),
+            style: const TextStyle(
                 color: Color(0xFF2F84DF),
                 fontWeight: FontWeight.bold,
                 fontSize: 16)),
@@ -141,7 +142,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           ],
                         ),
                         margin: const EdgeInsets.only(bottom: 8),
-                        child: _buildListTile('Edit Profile'),
+                        child: _buildListTile('profile.edit_profile'.tr()),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -156,7 +157,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           ],
                         ),
                         margin: const EdgeInsets.only(bottom: 8),
-                        child: _buildListTile('Notification'),
+                        child: _buildListTile('profile.notification'.tr()),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -171,7 +172,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           ],
                         ),
                         margin: const EdgeInsets.only(bottom: 8),
-                        child: _buildListTile('Payment Method'),
+                        child: _buildListTile('profile.payment_method'.tr()),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -186,7 +187,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           ],
                         ),
                         margin: const EdgeInsets.only(bottom: 8),
-                        child: _buildListTile('Help & Support'),
+                        child: _buildListTile('profile.help_support'.tr()),
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -205,7 +206,44 @@ class _ProfileTabState extends State<ProfileTab> {
                           contentPadding:
                               const EdgeInsets.fromLTRB(50, 0, 24, 0),
                           title: Text(
-                            'Logout',
+                            'profile.language'.tr(),
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                          trailing: Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF2F84DF),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            padding: const EdgeInsets.all(8),
+                            child: const Icon(
+                              Icons.chevron_right,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                          onTap: () {
+                            Navigator.pushNamed(context, '/settings/language');
+                          },
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.05),
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        margin: const EdgeInsets.only(bottom: 20),
+                        child: ListTile(
+                          contentPadding:
+                              const EdgeInsets.fromLTRB(50, 0, 24, 0),
+                          title: Text(
+                            'profile.logout'.tr(),
                             style: const TextStyle(
                               color: Color(0xFF2F84DF),
                             ),
@@ -238,19 +276,19 @@ class _ProfileTabState extends State<ProfileTab> {
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         const SizedBox(height: 20),
-                                        const Text(
-                                          'Logout',
+                                        Text(
+                                          'profile.logout'.tr(),
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),
                                         const SizedBox(height: 8),
-                                        const Text(
-                                          'Are you sure to logout?',
+                                        Text(
+                                          'profile.logout_confirm'.tr(),
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             fontSize: 14,
                                             color: Colors.black87,
                                           ),

@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../../services/api_service.dart';
 import '../../services/storage_service.dart';
 import '../../utils/app_exceptions.dart';
@@ -104,53 +105,37 @@ class _LoginScreenState extends State<LoginScreen> {
       });
 
       try {
-        // Show loading indicator
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Logging in...'),
-              duration: Duration(seconds: 1),
-            ),
-          );
-        }
-
+        await _storageService.setGuestMode(false);
+        await _storageService.clearAll();
         await _apiService.login(
           _emailController.text.trim(),
           _passwordController.text,
         );
+        await Future.delayed(const Duration(milliseconds: 100));
 
-        // Reset loading state if we're still mounted
-        if (mounted) {
-          setState(() {
-            isLoading = false;
-          });
+        final token = await _storageService.getAccessToken();
+        final user = _storageService.getUser();
 
-          // Verify if we're actually logged in
-          final token = await _storageService.getAccessToken();
-          final user = _storageService.getUser();
+        if (!mounted) return;
 
-          if (token != null && user != null) {
-            // Navigate based on role
-            if (user.role == 'serviceProvider') {
-              Navigator.pushReplacementNamed(context, '/service-provider/home');
-            } else if (user.role == 'serviceTaker') {
-              Navigator.pushReplacementNamed(context, '/service-taker/home');
-            }
-          } else {
-            throw Exception('Login failed: Unable to verify credentials');
+        if (token != null && user != null) {
+          if (user.role == 'serviceProvider') {
+            Navigator.pushReplacementNamed(context, '/service-provider/home');
+          } else if (user.role == 'serviceTaker') {
+            Navigator.pushReplacementNamed(context, '/service-taker/home');
           }
+        } else {
+          throw Exception('Login failed: Unable to verify credentials');
         }
       } catch (e) {
-        // Reset loading state and show error
         if (mounted) {
           setState(() {
             isLoading = false;
             _error = e.toString();
           });
-
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(_error ?? 'Login failed. Please try again.'),
+              content: Text(_error ?? 'auth.login.errors.generic'.tr()),
               backgroundColor: Colors.red,
             ),
           );
@@ -162,8 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _validateInputs() {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter both email and password'),
+        SnackBar(
+          content: Text('auth.login.errors.missing_fields').tr(),
           backgroundColor: Colors.red,
         ),
       );
@@ -174,20 +159,29 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String? _validateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Email is required';
+      return 'auth.login.errors.email_required'.tr();
     }
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
-      return 'Please enter a valid email';
+      return 'auth.login.errors.invalid_email'.tr();
     }
     return null;
   }
 
   String? _validatePassword(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Password is required';
+      return 'auth.login.errors.password_required'.tr();
     }
     return null;
+  }
+
+  Future<void> _changeLanguage() async {
+    final currentLocale = context.locale;
+    if (currentLocale.languageCode == 'en') {
+      await context.setLocale(const Locale('ar'));
+    } else {
+      await context.setLocale(const Locale('en'));
+    }
   }
 
   @override
@@ -211,15 +205,55 @@ class _LoginScreenState extends State<LoginScreen> {
             color: const Color.fromARGB(255, 250, 249, 249),
             shape: BoxShape.circle,
           ),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.black,
-              size: 20,
+          child: TextButton(
+            onPressed: () async {
+              final prefs = await SharedPreferences.getInstance();
+              final storageService = StorageService(prefs);
+              await storageService.setGuestMode(true);
+              if (mounted) {
+                Navigator.pushReplacementNamed(context, '/service-taker/home');
+              }
+            },
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
             ),
-            onPressed: null,
+            child: Text(
+              'common.skip'.tr(),
+              style: TextStyle(
+                color: Color(0xFF6C94D0),
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
         ),
+        actions: [
+          Container(
+            margin: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 250, 249, 249),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: TextButton(
+              onPressed: _changeLanguage,
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+              child: Text(
+                context.locale.languageCode == 'en' ? 'عربي' : 'EN',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -232,9 +266,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20),
-                  const Center(
+                  Center(
                     child: Text(
-                      'Sign in now',
+                      'auth.login.sign_in_now'.tr(),
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -244,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 8),
                   Center(
                     child: Text(
-                      'Please sign in to continue our app',
+                      'auth.login.please_sign_in'.tr(),
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey[600],
@@ -257,7 +291,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     autofillHints: const [AutofillHints.email],
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
-                      labelText: 'Email',
+                      labelText: 'auth.login.email'.tr(),
                       filled: true,
                       fillColor: Colors.grey[100],
                       border: OutlineInputBorder(
@@ -280,7 +314,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     enableSuggestions: false,
                     autocorrect: false,
                     decoration: InputDecoration(
-                      labelText: 'Password',
+                      labelText: 'auth.login.password'.tr(),
                       filled: true,
                       fillColor: Colors.grey[100],
                       border: OutlineInputBorder(
@@ -327,7 +361,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                       child: Text(
-                        'Forgot Password?',
+                        'auth.login.forgot_password'.tr(),
                         style: TextStyle(
                           color: const Color.fromARGB(255, 135, 192, 238),
                           fontSize: 13,
@@ -363,8 +397,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 strokeWidth: 2,
                               ),
                             )
-                          : const Text(
-                              'Sign In',
+                          : Text(
+                              'auth.login.sign_in'.tr(),
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -384,10 +418,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.grey[600],
                             fontSize: 14,
                           ),
-                          children: const [
-                            TextSpan(text: 'Don\'t have an account? '),
+                          children: [
+                            TextSpan(text: 'auth.login.no_account'.tr() + ' '),
                             TextSpan(
-                              text: 'Sign up',
+                              text: 'auth.login.sign_up'.tr(),
                               style: TextStyle(
                                 color: Color.fromARGB(255, 135, 192, 238),
                                 fontWeight: FontWeight.w500,
@@ -406,7 +440,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: Text(
-                          'Or connect',
+                          'auth.login.or_connect'.tr(),
                           style: TextStyle(
                             color: Colors.grey[600],
                             fontSize: 14,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 import 'package:flutter/services.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CustomNavigationBar extends StatelessWidget {
   final int selectedIndex;
@@ -12,8 +13,27 @@ class CustomNavigationBar extends StatelessWidget {
     required this.onTap,
   });
 
+  String _getLabel(BuildContext context, int index) {
+    switch (index) {
+      case 0:
+        return 'navigation.home'.tr();
+      case 1:
+        return 'navigation.city'.tr();
+      case 2:
+        return 'navigation.jobs'.tr();
+      case 3:
+        return 'navigation.orders'.tr();
+      case 4:
+        return 'navigation.profile'.tr();
+      default:
+        return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    context.locale; // This line ensures the widget rebuilds when locale changes
+
     return Container(
       color: Colors.white,
       child: Padding(
@@ -39,7 +59,7 @@ class CustomNavigationBar extends StatelessWidget {
                 _NavBarItem(
                   icon: IconlyBold.home,
                   unselectedIcon: IconlyLight.home,
-                  label: 'Home',
+                  label: _getLabel(context, 0),
                   isSelected: selectedIndex == 0,
                   onTap: () {
                     HapticFeedback.lightImpact();
@@ -49,7 +69,7 @@ class CustomNavigationBar extends StatelessWidget {
                 _NavBarItem(
                   icon: Icons.location_city,
                   unselectedIcon: Icons.location_city_outlined,
-                  label: 'City',
+                  label: _getLabel(context, 1),
                   isSelected: selectedIndex == 1,
                   onTap: () {
                     HapticFeedback.lightImpact();
@@ -59,7 +79,7 @@ class CustomNavigationBar extends StatelessWidget {
                 _NavBarItem(
                   icon: Icons.control_point,
                   unselectedIcon: Icons.control_point_outlined,
-                  label: 'Jobs',
+                  label: _getLabel(context, 2),
                   isSelected: selectedIndex == 2,
                   iconSize: 28,
                   onTap: () {
@@ -70,7 +90,7 @@ class CustomNavigationBar extends StatelessWidget {
                 _NavBarItem(
                   icon: IconlyBold.bag,
                   unselectedIcon: IconlyLight.bag,
-                  label: 'Order',
+                  label: _getLabel(context, 3),
                   isSelected: selectedIndex == 3,
                   onTap: () {
                     HapticFeedback.lightImpact();
@@ -80,7 +100,7 @@ class CustomNavigationBar extends StatelessWidget {
                 _NavBarItem(
                   icon: IconlyBold.profile,
                   unselectedIcon: IconlyLight.profile,
-                  label: 'Profile',
+                  label: _getLabel(context, 4),
                   isSelected: selectedIndex == 4,
                   onTap: () {
                     HapticFeedback.lightImpact();

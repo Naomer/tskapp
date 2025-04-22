@@ -145,7 +145,7 @@ class _HomeTabProvState extends State<HomeTabProv> {
               ],
             ),
             onPressed: () {
-              // TODO: Handle menu button press
+              Scaffold.of(context).openDrawer();
             },
           ),
         ),
