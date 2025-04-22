@@ -65,6 +65,7 @@ secrets.json
 *.certSigningRequest
 *.cert
 api-keys.txt
+*.properties.example
 
 # Local configuration
 local.properties

@@ -1,3 +1,6 @@
+import org.gradle.api.GradleException
+import java.io.FileNotFoundException
+
 buildscript {
     ext.kotlin_version = '1.9.0'
     repositories {
@@ -25,12 +28,12 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    throw new FileNotFoundException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def mapsApiKey = localProperties.getProperty('MAPS_API_KEY')
 if (mapsApiKey == null) {
-    throw new GradleException("Maps API key not found. Define MAPS_API_KEY in the local.properties file.")
+    throw new FileNotFoundException("Maps API key not found. Define MAPS_API_KEY in the local.properties file.")
 }
 
 // Load .env file
