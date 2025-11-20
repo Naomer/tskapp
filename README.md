@@ -5,6 +5,7 @@ Flutter mobile app for service providers & service takers with Google Maps and f
 
 ## 🔥 Tech Stack Badges
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazon-aws&logoColor=white)
@@ -225,4 +226,4 @@ Please open an issue for major changes.
 ---
 
 ## 📄 License
-MIT License
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
