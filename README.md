@@ -1,69 +1,56 @@
 # Task App
+Flutter mobile app for service providers & service takers with Google Maps and full Arabic RTL support.
 
-A modern Flutter mobile application designed for service providers & service takers, featuring Google Maps integration, real-time backend, and full Arabic RTL support.
+---
 
-🔥 Tech Stack Badges
+## 🔥 Tech Stack Badges
+![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazon-aws&logoColor=white)
 
+---
 
+## 🚀 Overview
+Task App is a cross-platform Flutter application that connects service providers with customers.  
+It includes Google Maps, live tracking, Arabic RTL support, and a scalable backend running on Node.js, MongoDB, and AWS.
 
+---
 
+## ✨ Features
+- 🔐 User authentication (Email, Phone, Google)
+- 📍 Google Maps integration (live location, service areas)
+- 📝 Service posting & status updates
+- 📞 Provider–client connection
+- 🕌 Full Arabic RTL UI
+- ☁️ AWS-hosted backend (secure REST APIs)
+- 🔄 Real-time updates
 
+---
 
+## 🛠️ Tech Stack
 
+### Frontend
+- Flutter  
+- Dart  
+- Google Maps API  
+- RTL support  
 
-🚀 Overview
+### Backend
+- Node.js (Express)
+- JWT Authentication
+- REST API structure
 
-Task App is a cross-platform mobile application that connects service providers with clients.
-Users can request services, track providers, and interact through a clean, fast Flutter interface with Arabic RTL support.
+### Database
+- MongoDB
 
-The backend runs on Node.js, MongoDB, and AWS, ensuring scalability and real-time functionality.
+### Cloud
+- AWS (EC2, S3, CloudFront)
 
-✨ Features
+---
 
-🔐 Authentication (Email, Phone, Google)
-
-📍 Google Maps for location selection & live tracking
-
-💬 Provider–client communication
-
-📝 Service posting & status updates
-
-🕌 Full Arabic RTL UI
-
-📱 Responsive and smooth Flutter design
-
-☁️ AWS-hosted backend with secure APIs
-
-🔄 Real-time updates
-
-🛠️ Tech Stack
-Frontend
-
-Flutter
-
-Dart
-
-Google Maps API
-
-RTL UI support
-
-Backend
-
-Node.js (Express)
-
-JWT authentication
-
-REST APIs for services, users, orders
-
-Database
-
-MongoDB (Atlas or local)
-
-Cloud
-
-AWS (EC2, S3, etc.)
-
-📂 Project Structure
+## 📂 Project Structure
+```
 TaskApp/
 │── lib/
 │   ├── screens/
@@ -77,40 +64,165 @@ TaskApp/
 │   ├── routes/
 │   ├── config/
 │── README.md
+```
 
-▶️ Getting Started
-1. Clone the repository
+---
+
+## ▶️ Getting Started
+
+### 1. Clone the project
+```
 git clone https://github.com/your-username/task-app.git
 cd task-app
+```
 
-2. Install Flutter packages
+### 2. Install dependencies
+```
 flutter pub get
+```
 
-3. Run the app
+### 3. Run the app
+```
 flutter run
+```
 
-4. Backend setup
+### 4. Backend setup
+```
 cd backend
 npm install
 npm start
+```
 
-📌 Roadmap
+---
 
- Push notifications
+## 📌 Roadmap
+- [ ] Push notifications
+- [ ] In-app chat system
+- [ ] Payment gateway integration
+- [ ] Multi-language UI
+- [ ] Admin dashboard
 
- In-app chat system
+---
 
- Payment gateway integration
+## 🤝 Contributing
+Pull requests are welcome!  
+Please open an issue for major changes.
 
- Multi-language UI
+---
 
- Admin dashboard
+## 📄 License
+MIT License
+# Task App
+Flutter mobile app for service providers & service takers with Google Maps and full Arabic RTL support.
 
-🤝 Contributing
+---
 
-Contributions are welcome!
-Open an issue to suggest changes or improvements.
+## 🔥 Tech Stack Badges
+![Flutter](https://img.shields.io/badge/Flutter-02569B?logo=flutter&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?logo=amazon-aws&logoColor=white)
 
-📄 License
+---
 
-MIT License.
+## 🚀 Overview
+Task App is a cross-platform Flutter application that connects service providers with customers.  
+It includes Google Maps, live tracking, Arabic RTL support, and a scalable backend running on Node.js, MongoDB, and AWS.
+
+---
+
+## ✨ Features
+- 🔐 User authentication (Email, Phone, Google)
+- 📍 Google Maps integration (live location, service areas)
+- 📝 Service posting & status updates
+- 📞 Provider–client connection
+- 🕌 Full Arabic RTL UI
+- ☁️ AWS-hosted backend (secure REST APIs)
+- 🔄 Real-time updates
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- Flutter  
+- Dart  
+- Google Maps API  
+- RTL support  
+
+### Backend
+- Node.js (Express)
+- JWT Authentication
+- REST API structure
+
+### Database
+- MongoDB
+
+### Cloud
+- AWS (EC2, S3, CloudFront)
+
+---
+
+## 📂 Project Structure
+```
+TaskApp/
+│── lib/
+│   ├── screens/
+│   ├── widgets/
+│   ├── models/
+│   ├── services/
+│   ├── utils/
+│── backend/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   ├── config/
+│── README.md
+```
+
+---
+
+## ▶️ Getting Started
+
+### 1. Clone the project
+```
+git clone https://github.com/your-username/task-app.git
+cd task-app
+```
+
+### 2. Install dependencies
+```
+flutter pub get
+```
+
+### 3. Run the app
+```
+flutter run
+```
+
+### 4. Backend setup
+```
+cd backend
+npm install
+npm start
+```
+
+---
+
+## 📌 Roadmap
+- [ ] Push notifications
+- [ ] In-app chat system
+- [ ] Payment gateway integration
+- [ ] Multi-language UI
+- [ ] Admin dashboard
+
+---
+
+## 🤝 Contributing
+Pull requests are welcome!  
+Please open an issue for major changes.
+
+---
+
+## 📄 License
+MIT License
