@@ -1,5 +1,10 @@
-# task_app
+# Task App
+Flutter mobile app for Service providers & takers with Google Maps & Arabic RTL.
 
+Flutter
+Node.js
+MongoDB
+AWS
 A new Flutter project.
 
 ## Getting Started
